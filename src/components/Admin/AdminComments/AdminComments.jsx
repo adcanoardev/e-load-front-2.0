@@ -9,29 +9,29 @@ const AdminComments = () => {
         getAllComments();
     }, []);
     if (loading || !comments) {
-      return (
-        <Flex justify="center" align="center" width='100%' height="100vh">
-          <Spinner height='80px' width='80px' thickness="5px"  color="secondaryColor" emptyColor="defaultColor"/>
-        </Flex>
-      );
+        return (
+            <Flex justify="center" align="center" width="100%" height="100vh">
+                <Spinner height="80px" width="80px" thickness="5px" color="secondaryColor" emptyColor="defaultColor" />
+            </Flex>
+        );
     }
     return (
-      <Flex display="column">
-      <Heading size="lg">Comentarios</Heading>
-      <Spacer />
-      <Divider my={5} />
-      
-        {comments.map((comment) => {
-          return (
-          <div key={comment._id}>
-            <p>{comment.user}</p>
-            <p>{comment.body}</p>
-            <p>{comment.createdAt}</p>
-          </div>
-        )})
-        }
-        </Flex>
-      )
-}
+        <Flex display="column">
+            <Heading size="lg">Comentarios</Heading>
+            <Spacer />
+            <Divider my={5} />
 
-export default AdminComments
+            {comments.map((comment) => {
+                return (
+                    <div key={comment._id}>
+                        <p>{comment.user}</p>
+                        <p>{comment.body}</p>
+                        <p>{comment.createdAt}</p>
+                    </div>
+                );
+            })}
+        </Flex>
+    );
+};
+
+export default AdminComments;

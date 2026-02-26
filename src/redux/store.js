@@ -11,6 +11,6 @@ export default configureStore({
         spots: spotsReducer,
         stations: stationsReducer,
         users: usersReducer,
-        payments: paymentsReducer
-    }
-})
+        payments: paymentsReducer,
+    },
+});

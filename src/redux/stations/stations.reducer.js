@@ -3,25 +3,25 @@ const INITIAL_STATE = {
     stationsAdmin: [],
     stationSelected: null,
     loading: false,
-    error: null
-}
+    error: null,
+};
 
 export const stationsReducer = (state = INITIAL_STATE, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case "LOADING":
-            return {...state, loading: true};
+            return { ...state, loading: true };
         case "CREATE_STATION":
             return {
                 ...state,
                 loading: false,
-                error: null
+                error: null,
             };
         case "GET_STATIONS":
             return {
                 ...state,
                 stations: [...action.payload],
                 loading: false,
-                error: null
+                error: null,
             };
         case "GET_STATIONS_ADMIN":
             return {
@@ -29,34 +29,34 @@ export const stationsReducer = (state = INITIAL_STATE, action) => {
                 stationsAdmin: action.payload,
                 // stationsAdmin: [...action.payload],
                 loading: false,
-                error: null
+                error: null,
             };
         case "SELECT_STATION":
             return {
                 ...state,
-                stationSelected: {...action.payload},
+                stationSelected: { ...action.payload },
                 loading: false,
-                error: null
-            }
+                error: null,
+            };
         case "UPDATE_STATION":
             return {
                 ...state,
                 loading: false,
-                error: null
-            }
+                error: null,
+            };
         case "DELETE_STATION":
             return {
                 ...state,
                 loading: false,
-                error: null
-            }
+                error: null,
+            };
         case "ERROR":
             return {
                 ...state,
                 loading: false,
-                error: action.payload
-            }
+                error: action.payload,
+            };
         default:
             return state;
     }
-}
+};

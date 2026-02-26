@@ -15,52 +15,52 @@ const createSpot = async (dataSpot) => {
         const result = await API.post("spots", formData);
         dispatch({
             type: "CREATE_SPOT",
-            payload: result.data
+            payload: result.data,
         });
     } catch (error) {
         const errorMessage = error.response.data.msg;
         dispatch({ type: "ERROR", payload: errorMessage });
     }
-}
+};
 const getAllSpots = async () => {
     try {
-        dispatch({type: "LOADING"});
+        dispatch({ type: "LOADING" });
         const result = await API.get("spots");
         dispatch({
             type: "GET_SPOTS",
-            payload: result.data
+            payload: result.data,
         });
     } catch (error) {
         const errorMessage = error.response.data.msg;
         dispatch({ type: "ERROR", payload: errorMessage });
     }
-}
+};
 const getSpotsByStation = async (stationId) => {
     try {
-        dispatch({type: "LOADING"});
+        dispatch({ type: "LOADING" });
         const result = await API.get(`spots/station/${stationId}`);
         dispatch({
             type: "STATION_SPOTS",
-            payload: result.data
+            payload: result.data,
         });
     } catch (error) {
         const errorMessage = error.response.data.msg;
         dispatch({ type: "ERROR", payload: errorMessage });
     }
-}
+};
 const getSpotsByUser = async (userId) => {
     try {
-        dispatch({type: "LOADING"});
+        dispatch({ type: "LOADING" });
         const result = await API.get(`spots/user/${userId}`);
         dispatch({
             type: "USER_SPOTS",
-            payload: result.data
-        })
+            payload: result.data,
+        });
     } catch (error) {
         const errorMessage = error.response.data.msg;
         dispatch({ type: "ERROR", payload: errorMessage });
     }
-}
+};
 const updateSpot = async (spotId, spotToUpdate) => {
     try {
         // dispatch({type: "LOADING"});
@@ -70,70 +70,71 @@ const updateSpot = async (spotId, spotToUpdate) => {
         const result = await API.put(`spots/${spotId}`, formData);
         dispatch({
             type: "UPDATE_SPOT",
-            payload: result.data
+            payload: result.data,
         });
     } catch (error) {
         const errorMessage = error.response.data.msg;
         dispatch({ type: "ERROR", payload: errorMessage });
     }
-}
+};
 const updateSpotState = async (spotId, newState) => {
     try {
-        const result = await API.patch(`spots/${spotId}`, {state: newState});
-        if(newState === 'Ocupado'){
+        const result = await API.patch(`spots/${spotId}`, { state: newState });
+        if (newState === "Ocupado") {
             dispatch({
                 type: "SELECT_SPOT_TO_LOAD",
-                payload: result.data
+                payload: result.data,
             });
-        }
-        else if(newState === 'Libre'){
+        } else if (newState === "Libre") {
             dispatch({
                 type: "SELECT_SPOT_TO_DISCONNECT",
-                payload: null
+                payload: null,
             });
-        }        
+        }
     } catch (error) {
         const errorMessage = error.response.data.msg;
         dispatch({ type: "ERROR", payload: errorMessage });
     }
-}
+};
 const spotLoading = async (spotId, loadValue) => {
     try {
-        const result = await API.patch(`spots/${spotId}`, {load: loadValue});
+        const result = await API.patch(`spots/${spotId}`, { load: loadValue });
         dispatch({
             type: "SELECT_SPOT_TO_LOAD",
-            payload: result.data
+            payload: result.data,
         });
     } catch (error) {
         const errorMessage = error.response.data.msg;
         dispatch({ type: "ERROR", payload: errorMessage });
     }
-}
+};
 const loadingSpot = () => {
     let value = 0;
     const interval = setInterval(() => {
         value = value + 5;
         console.log(value);
     }, 1000);
-    return () => { clearInterval(interval)};
-}
+    return () => {
+        clearInterval(interval);
+    };
+};
 const deleteSpot = async (spotId) => {
     try {
         // dispatch({type: "LOADING"});
         const result = await API.delete(`spots/${spotId}`);
         dispatch({
             type: "DELETE_SPOT",
-            payload: result.data
+            payload: result.data,
         });
     } catch (error) {
         const errorMessage = error.response.data.msg;
         dispatch({ type: "ERROR", payload: errorMessage });
     }
-}
+};
 const deleteAllSpotsFromStation = async (stationId) => {
     getSpotsByStation(stationId);
     //comprobar el initial_state spotsByStation para poder borrarlos
-}
+};
 
 export {
     createSpot,
@@ -145,5 +146,5 @@ export {
     spotLoading,
     loadingSpot,
     deleteSpot,
-    deleteAllSpotsFromStation
-}
+    deleteAllSpotsFromStation,
+};

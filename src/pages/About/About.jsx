@@ -1,19 +1,13 @@
-
-
-
-
-import AboutHistory from "../../components/AboutHistory/AboutHistory"
-import AboutInnovation from "../../components/AboutInnovation/AboutInnovation"
+import AboutHistory from "../../components/AboutHistory/AboutHistory";
+import AboutInnovation from "../../components/AboutInnovation/AboutInnovation";
 
 const About = () => {
-  return (
-    <>
-    <AboutHistory/>
-    <AboutInnovation/>
-   
-    
-    </>
-  )
-}
+    return (
+        <>
+            <AboutHistory />
+            <AboutInnovation />
+        </>
+    );
+};
 
-export default About
+export default About;
