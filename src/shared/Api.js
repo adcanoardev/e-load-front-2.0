@@ -16,7 +16,9 @@ export const APIIMAGES = axios.create({
     baseURL: import.meta.env.VITE_APP_URL_API,
     headers: APIHeaders2,
 });
+console.log("API baseURL =>", import.meta.env.VITE_APP_URL_API);
 export const API = axios.create({
     baseURL: import.meta.env.VITE_APP_URL_API,
     headers: APIHeaders,
 });
+console.log("API baseURL =>", import.meta.env.VITE_APP_URL_API);

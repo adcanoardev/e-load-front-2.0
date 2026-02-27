@@ -27,7 +27,7 @@ const LoginForm = ({ onClose }) => {
             </FormLabel>
             <Input {...register("password")} placeholder="Contraseña" type="password" />
             <Flex alignItems="center" justifyContent="center" textAlign="center" fontWeight={600} p={4}>
-                <Text color="redColor">{error}</Text>
+                <Text color="redColor">{typeof error === "string" ? error : (error?.msg ?? "")}</Text>
             </Flex>
             <Flex d="flex" flexDirection="column" justifyContent="center" alignItems="center">
                 <Button
