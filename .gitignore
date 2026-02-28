@@ -25,3 +25,6 @@ vite.config.js
 *.sw?
 .env
 package-lock.json
+.env.*
+!.env.example
+
