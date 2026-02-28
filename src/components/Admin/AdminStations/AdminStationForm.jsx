@@ -3,17 +3,25 @@ import { createStation } from "../../../redux/stations/stations.actions";
 import PropTypes from "prop-types";
 import { Box, Button, Flex, FormControl, FormLabel, Input, Select, Spacer, useToast } from "@chakra-ui/react";
 import { Done } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const AdminStationForm = ({ selectedCoordinates }) => {
     const { register, handleSubmit, reset } = useForm();
     const toast = useToast();
+    const navigate = useNavigate();
+
     const onSubmit = (dataStation) => {
-        createStation({
-            ...dataStation,
-            coordinatesLat: selectedCoordinates.lat,
-            coordinatesLng: selectedCoordinates.lng,
-        });
+        createStation(
+            {
+                ...dataStation,
+                coordinatesLat: selectedCoordinates.lat,
+                coordinatesLng: selectedCoordinates.lng,
+            },
+            navigate,
+        );
+
         reset();
+
         toast({
             status: "success",
             duration: 3000,
@@ -33,6 +41,7 @@ const AdminStationForm = ({ selectedCoordinates }) => {
             ),
         });
     };
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl>
@@ -50,7 +59,9 @@ const AdminStationForm = ({ selectedCoordinates }) => {
                             value={selectedCoordinates ? selectedCoordinates.lng : ""}
                         />
                     </Flex>
+
                     <Input {...register("address")} placeholder="Dirección" maxLength={80} />
+
                     <Flex display="flex" alignItems="center">
                         <FormLabel>Horario</FormLabel>
                         <Select {...register("schedule")} width={200} defaultValue={"Opción"}>
@@ -61,6 +72,7 @@ const AdminStationForm = ({ selectedCoordinates }) => {
                             <option value="24 Horas">24 Horas</option>
                             <option value="Cerrada">Cerrada</option>
                         </Select>
+
                         <Spacer />
                         <Button
                             type="submit"
@@ -76,6 +88,7 @@ const AdminStationForm = ({ selectedCoordinates }) => {
         </form>
     );
 };
+
 AdminStationForm.propTypes = {
     isEditing: PropTypes.bool,
     selectedCoordinates: PropTypes.object,

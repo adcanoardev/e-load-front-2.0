@@ -1,24 +1,38 @@
 import axios from "axios";
 
+const baseURL = import.meta.env.VITE_APP_URL_API; // ej: "http://localhost:5000/"
+
+// Headers base (SIN Authorization y SIN Access-Control-Allow-Origin)
 export const APIHeaders = {
     Accept: "application/json",
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-    Authorization: localStorage.getItem("token"),
 };
+
 export const APIHeaders2 = {
     Accept: "application/json",
     "Content-Type": "multipart/form-data",
-    "Access-Control-Allow-Origin": "*",
-    Authorization: localStorage.getItem("token"),
 };
-export const APIIMAGES = axios.create({
-    baseURL: import.meta.env.VITE_APP_URL_API,
-    headers: APIHeaders2,
-});
-console.log("API baseURL =>", import.meta.env.VITE_APP_URL_API);
+
+// Clients
 export const API = axios.create({
-    baseURL: import.meta.env.VITE_APP_URL_API,
+    baseURL,
     headers: APIHeaders,
 });
-console.log("API baseURL =>", import.meta.env.VITE_APP_URL_API);
+
+export const APIIMAGES = axios.create({
+    baseURL,
+    headers: APIHeaders2,
+});
+
+// Interceptors: token siempre actualizado + Bearer
+API.interceptors.request.use((config) => {
+    const token = localStorage.getItem("token");
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+    return config;
+});
+
+APIIMAGES.interceptors.request.use((config) => {
+    const token = localStorage.getItem("token");
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+    return config;
+});

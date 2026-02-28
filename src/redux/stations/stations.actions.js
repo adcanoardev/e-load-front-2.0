@@ -3,24 +3,31 @@ import store from "../store";
 
 const { dispatch } = store;
 
-const createStation = async (dataStation) => {
+const createStation = async (dataStation, navigate) => {
     try {
         dispatch({ type: "LOADING" });
+
         const formData = new FormData();
         formData.append("coordinatesLat", dataStation.coordinatesLat);
         formData.append("coordinatesLng", dataStation.coordinatesLng);
         formData.append("address", dataStation.address);
         formData.append("schedule", dataStation.schedule);
+
         const result = await API.post("stations", formData);
+
         dispatch({
             type: "CREATE_STATION",
             payload: result.data,
         });
+
+        // ✅ redirigir al listado tras crear
+        if (navigate) navigate("/usuario/estaciones");
     } catch (error) {
-        const errorMessage = error.response.data.msg;
+        const errorMessage = error.response?.data?.msg || "Error";
         dispatch({ type: "ERROR", payload: errorMessage });
     }
 };
+
 const getAllStations = async () => {
     try {
         dispatch({ type: "LOADING" });
