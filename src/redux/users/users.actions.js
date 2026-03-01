@@ -137,20 +137,36 @@ const deleteUser = async (userId) => {
         dispatch({ type: "ERROR", payload: errorMessage });
     }
 };
+
 const checkSession = async () => {
+    const token = localStorage.getItem("token");
+
+    // si no hay token real, NO llamamos al backend
+    if (!token || token === "null" || token === "undefined") {
+        localStorage.removeItem("token"); // limpieza por si quedó basura
+        dispatch({ type: "CHECK_SESSION", payload: { user: null, token: null } });
+        return;
+    }
+
     try {
         const result = await API.get("users/check");
         dispatch({
             type: "CHECK_SESSION",
-            payload: {
-                user: result.data !== "No estás autorizado" ? result.data : null,
-                token: localStorage.getItem("token"),
-            },
+            payload: { user: result.data, token },
         });
     } catch (error) {
-        dispatch({ type: "ERROR", payload: error.response.data });
+        // si el token es inválido/expirado, lo limpiamos para que no vuelva a spamear
+        if (error?.response?.status === 401) {
+            localStorage.removeItem("token");
+            dispatch({ type: "CHECK_SESSION", payload: { user: null, token: null } });
+            return;
+        }
+
+        const errorMessage = error?.response?.data?.msg || "Error inesperado";
+        dispatch({ type: "ERROR", payload: errorMessage });
     }
 };
+
 const logout = async () => {
     try {
         localStorage.removeItem("token");
