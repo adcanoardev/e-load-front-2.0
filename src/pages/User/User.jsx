@@ -1,18 +1,23 @@
-import { Flex, useBreakpointValue } from "@chakra-ui/react";
-import SideBar from "../../components/SideBar/SideBar";
-import RoutingUser from "../../components/Routing/RoutingUser";
+import { useEffect, useState } from "react";
+import SideBar from "../../components/layout/SideBar";
+import RoutingUser from "../../components/routing/RoutingUser";
+import styles from "./User.module.css";
 
-const User = () => {
-    const isDesktop = useBreakpointValue({ base: false, lg: true });
+export default function User() {
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+
+    useEffect(() => {
+        const fn = () => setIsMobile(window.innerWidth < 1024);
+        window.addEventListener("resize", fn);
+        return () => window.removeEventListener("resize", fn);
+    }, []);
 
     return (
-        <Flex>
-            {isDesktop && <SideBar />}
-            <Flex flex="1" padding="4" width="calc(100% - 250px)">
+        <div className={styles.wrap}>
+            {!isMobile && <SideBar />}
+            <main className={styles.main}>
                 <RoutingUser />
-            </Flex>
-        </Flex>
+            </main>
+        </div>
     );
-};
-
-export default User;
+}

@@ -1,0 +1,12 @@
+/* User.module.css */
+.wrap {
+  display: flex;
+  min-height: calc(100vh - var(--header-h));
+  margin-top: var(--header-h);
+}
+.main {
+  flex: 1;
+  padding: var(--space-8);
+  min-width: 0;
+  overflow-x: auto;
+}

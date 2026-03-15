@@ -1,32 +1,37 @@
-import React, { useEffect } from "react";
+// App.jsx
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import "./App.css";
-import Footer from "./components/Footer/Footer";
-import Header from "./components/Header/Header";
-import Routing from "./components/Routing/Routing";
-import { checkSession } from "./redux/users/users.actions";
-import { Box, Flex } from "@chakra-ui/react";
+import { useDispatch } from "react-redux";
+import { checkSessionThunk } from "./store/slices/usersSlice";
+import Header from "./components/layout/Header";
+import Footer from "./components/layout/Footer";
+import Routing from "./components/routing/Routing";
+import styles from "./App.module.css";
 
-function App() {
+export default function App() {
+    const dispatch = useDispatch();
     const location = useLocation();
 
+    // Verificar sesión solo al montar
     useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (token) {
-            checkSession();
-        }
+        dispatch(checkSessionThunk());
+    }, [dispatch]);
+
+    // Scroll al tope en cada navegación
+    useEffect(() => {
         window.scrollTo(0, 0);
-    }, [location]);
+    }, [location.pathname]);
+
+    // No mostrar footer en el mapa
+    const isMapPage = location.pathname === "/mapa";
 
     return (
-        <Flex direction="column" minH="100vh">
+        <div className={styles.app}>
             <Header />
-            <Box flex="1" pt="80px">
+            <div className={styles.content}>
                 <Routing />
-            </Box>
-            <Footer />
-        </Flex>
+            </div>
+            {!isMapPage && <Footer />}
+        </div>
     );
 }
-
-export default App;

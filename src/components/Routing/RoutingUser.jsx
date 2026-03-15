@@ -1,84 +1,42 @@
-import { Route, Routes } from "react-router-dom";
-import ErrorReport from "../ErrorReport/ErrorReport";
-import LoyaltyPoints from "../LoyaltyPoints/LoyaltyPoints";
-import MyRecharges from "../MyRecharges/MyRecharges";
-import PersonalInformation from "../PersonalInformation/PersonalInformation";
-import RequireAuth from "../RequireAuth/RequireAuth";
-import AdminStations from "../Admin/AdminStations/AdminStations";
-import AdminSpots from "../Admin/AdminSpots/AdminSpots";
-import AdminUsers from "../Admin/AdminUsers/AdminUsers";
-import AdminComments from "../Admin/AdminComments/AdminComments";
-import AdminStationDetail from "../Admin/AdminStationDetail/AdminStationDetail";
-import AdminStationCreate from "../Admin/AdminStations/AdminStationCreate";
-import AdminSpotCreate from "../Admin/AdminSpots/AdminSpotCreate";
-import Payments from "../Payments/Payments";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
+import PersonalInformation from "../user/PersonalInformation";
+import Payments            from "../payments/Payments";
+import { AdminStations, AdminSpots, AdminUsers, AdminComments } from "../admin/Admin";
+import { AdminStationCreate, AdminSpotCreate } from "../admin/AdminCreate";
+import AdminStationDetail  from "../admin/AdminStationDetail";
+import LoyaltyPoints       from "../../pages/LoyaltyPoints/LoyaltyPoints";
+import MyRecharges         from "../../pages/MyRecharges/MyRecharges";
+import Contact             from "../../pages/Contact/Contact";
 
-const RoutingUser = () => {
+function AdminRoute({ children }) {
+    const { user } = useSelector(s => s.users);
+    if (user?.rol !== "admin") return <Navigate to="/usuario" replace />;
+    return children;
+}
+AdminRoute.propTypes = { children: PropTypes.node };
+
+export default function RoutingUser() {
     return (
         <Routes>
-            <Route path="/" element={<PersonalInformation />} />
-            <Route path="/metodos-de-pago" element={<Payments />} />
-            <Route path="/mis-recargas" element={<MyRecharges />} />
-            <Route path="/mis-puntos" element={<LoyaltyPoints />} />
-            <Route
-                path="/estaciones"
-                element={
-                    <RequireAuth adminAccess>
-                        <AdminStations />
-                    </RequireAuth>
-                }
-            />
-            <Route
-                path="/crear-estacion"
-                element={
-                    <RequireAuth adminAccess>
-                        <AdminStationCreate />
-                    </RequireAuth>
-                }
-            />
-            <Route
-                path="/estaciones-detalle/:id"
-                element={
-                    <RequireAuth adminAccess>
-                        <AdminStationDetail />
-                    </RequireAuth>
-                }
-            />
-            <Route
-                path="/puntos-carga"
-                element={
-                    <RequireAuth adminAccess>
-                        <AdminSpots />
-                    </RequireAuth>
-                }
-            />
-            <Route
-                path="/crear-punto-carga"
-                element={
-                    <RequireAuth adminAccess>
-                        <AdminSpotCreate />
-                    </RequireAuth>
-                }
-            />
-            <Route
-                path="/usuarios"
-                element={
-                    <RequireAuth adminAccess>
-                        <AdminUsers />
-                    </RequireAuth>
-                }
-            />
-            <Route
-                path="/comentarios"
-                element={
-                    <RequireAuth adminAccess>
-                        <AdminComments />
-                    </RequireAuth>
-                }
-            />
-            <Route path="/reportar-error" element={<ErrorReport />} />
+            {/* Usuario */}
+            <Route path="/"                  element={<PersonalInformation />} />
+            <Route path="/metodos-de-pago"   element={<Payments />} />
+            <Route path="/mis-recargas"      element={<MyRecharges />} />
+            <Route path="/mis-puntos"        element={<LoyaltyPoints />} />
+            <Route path="/reportar-error"    element={<Contact />} />
+
+            {/* Admin */}
+            <Route path="/estaciones"        element={<AdminRoute><AdminStations /></AdminRoute>} />
+            <Route path="/crear-estacion"    element={<AdminRoute><AdminStationCreate /></AdminRoute>} />
+            <Route path="/estaciones-detalle/:id" element={<AdminRoute><AdminStationDetail /></AdminRoute>} />
+            <Route path="/puntos-carga"      element={<AdminRoute><AdminSpots /></AdminRoute>} />
+            <Route path="/crear-punto-carga" element={<AdminRoute><AdminSpotCreate /></AdminRoute>} />
+            <Route path="/usuarios"          element={<AdminRoute><AdminUsers /></AdminRoute>} />
+            <Route path="/comentarios"       element={<AdminRoute><AdminComments /></AdminRoute>} />
+
+            <Route path="*" element={<Navigate to="/usuario" replace />} />
         </Routes>
     );
-};
-
-export default RoutingUser;
+}

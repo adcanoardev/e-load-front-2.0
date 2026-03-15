@@ -1,0 +1,100 @@
+/* About.module.css */
+.page { overflow-x: hidden; }
+
+.hero {
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  padding: var(--space-16) var(--space-16);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.heroContent { max-width: 680px; }
+
+.eyebrow {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: var(--space-4);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: var(--space-5);
+}
+
+.sub {
+  font-size: 1.05rem;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  max-width: 560px;
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-4);
+}
+
+.body { color: var(--color-text-muted); line-height: 1.75; }
+
+.mission {
+  padding: var(--space-16);
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+
+.missionGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-12);
+}
+
+.principles {
+  padding: var(--space-16);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+}
+
+.principleGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+
+.principleCard {
+  text-align: center;
+  padding: var(--space-8);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  transition: border-color var(--transition);
+}
+.principleCard:hover { border-color: var(--color-primary); }
+
+.principleIcon { font-size: 2.2rem; display: block; margin-bottom: var(--space-4); }
+.principleTitle {
+  font-family: var(--font-display);
+  font-size: 1.1rem; font-weight: 700;
+  margin-bottom: var(--space-3);
+}
+.principleDesc { font-size: 0.875rem; color: var(--color-text-muted); line-height: 1.6; }
+
+@media (max-width: 768px) {
+  .hero { padding: var(--space-10) var(--space-6); }
+  .mission { padding: var(--space-10) var(--space-6); }
+  .missionGrid { grid-template-columns: 1fr; gap: var(--space-8); }
+  .principles { padding: var(--space-10) var(--space-6); }
+  .principleGrid { grid-template-columns: 1fr; }
+}
